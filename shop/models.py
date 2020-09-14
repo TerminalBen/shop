@@ -1,7 +1,9 @@
 from django.db import models
 
 # Create your models here.
-
+#admin credentials
+# #bentolima
+#123shop456
 
 class Category(models.Model):
     name= models.CharField(max_length=200,db_index=True)
