@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -65,13 +66,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart_context',  #Cart context processor(always on cart display)
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'myshop.wsgi.application'
-
+#too lazy to config smtp now. using this to simulate mail sendings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #TODO replace this with smtp configuration
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

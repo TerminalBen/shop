@@ -13,7 +13,7 @@ class Cart(object):
         if not cart:
             #save an empty cart in session
             cart= self.session[settings.CART_SESSION_ID] = {}
-        sef.cart= cart
+        self.cart= cart
 
     def add(self, product,quantity=1, override_quantity = False):
         '''
@@ -22,7 +22,7 @@ class Cart(object):
 
         product_id=str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id]= {'quantity':0,'price':str(product.price)}
+            self.cart[product_id]= {'quantity':0,'price':str(product.price)}  #str vs int?
         
         if override_quantity:
             self.cart[product_id]['quantity'] = quantity
@@ -37,7 +37,7 @@ class Cart(object):
         product_id=str(product.id)
         if product_id in self.cart:
             del self.cart[product_id]
-            self.save()
+        self.save()
     
     def __iter__(self):
         '''
@@ -53,10 +53,25 @@ class Cart(object):
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])
+            # check later this if this decimal is doing anything
             item['total_price'] = item['price'] * Decimal(item['quantity'])
             yield item
 
     def __len__(self):
         qt=0
-        for item in self.cart.values()
+        for item in self.cart.values():
             qt += item['quantity']
+        return qt
+
+    def get_total_price(self):
+        pr=0
+        for item in self.cart.values():
+            #return sum(Decimal(item['price'])*item['quantity'])
+            pr+=Decimal(item['price']) * (item['quantity'])  #check later this if this decimal is doing anything
+        return pr
+
+    def clear(self):
+        del self.session[settings.CART_SESSION_ID]
+        self.save()
+
+    

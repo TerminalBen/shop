@@ -42,3 +42,4 @@ class Product(models.Model):
         return reverse('shop:product_detail',args=[self.id,self.slug])
 
 #Order and Customer model Next
+#update: order as separated app 
