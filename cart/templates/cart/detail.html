@@ -28,7 +28,8 @@ your shopping cart
             <tr>
                 <td>
                     <a href = '{{product.get_absolute_url}}'>
-                    <img src = "{% if product.image %} {{product.image.url}} {%else%} {%static 'img/no-image-available.jpg'%} {%endif%}" </a>
+                    <img src = "{% if product.image %} {{product.image.url}} {%else%} {%static 'img/no-image-available.jpg'%} {%endif%}" alt="product_image" 
+                    </a>
                 </td>
 
                 <td>{{product.name}}</td>

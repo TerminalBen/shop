@@ -5,7 +5,7 @@
 
 {%block content%} 
     <div class= 'product-detail'>
-        <img src = "{% if product.image %} {{product.image.url}} {%else%} {%static 'img\no-image-available.jpg' %} {%endif%}">
+        <img src = "{% if product.image %} {{product.image.url}} {%else%} {%static 'img\no-image-available.jpg' %} {%endif%}" alt="product_image">
         <h1>
             {{product.name}}
         </h1>
