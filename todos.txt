@@ -1,0 +1,10 @@
+1-Configure mail notifications and settings --chapter2
+2-'close' field in Orders model and add functionality in admin panel
+3-add notification to order confirmation in sms  via twilio
+4-add notification to order placement to admin via sms and mail
+5-manage orders and payments[bug to fix later: gatewayError]
+6-export to csv
+.
+.
+.
+Style application
