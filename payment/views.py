@@ -23,8 +23,8 @@ def payment_process(request):
                 'submit_for_settlement':True
             }
         })
-        response_code = result.Transaction.processor_response_code
-        response_text = result.Transaction.processor_response_text
+        #response_code = result.Transaction.processor_response_code //check these debugs errors
+        #response_text = result.Transaction.processor_response_text //check these debug errors
         if result.is_success:
             #mark the order as paid
             order.paid = True
@@ -34,8 +34,10 @@ def payment_process(request):
             return redirect('payment:done')
         else:
             print(f'result message: {result.message}')
-            print(f'error: {response_code}')
-            print({f'error message: {response_text}'})
+            #print(f'error: {response_code}')
+            print(f'error: -------------------')
+            # print({f'error message: {response_text}'})
+            print({f'error message: ------------------'})
             for error in result.errors.deep_errors:
                 print(error.attribute)
                 print(error.code)
