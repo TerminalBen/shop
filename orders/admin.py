@@ -66,7 +66,6 @@ def export_to_pdf(modeladmin,request,queryset):
             if (isinstance(value,datetime)):
                 value = value.strftime('%d/%m/%y')
             data_row.append(str(value))
-    #print(data_row)
     buffer = io.BytesIO()
     p=canvas.Canvas(buffer)
     p.drawString(10,20,' '.join(fields1))
