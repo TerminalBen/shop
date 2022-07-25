@@ -9,7 +9,8 @@ from django.shortcuts import render
 import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
-
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
 
 class OrderItemInLine(admin.TabularInline):
     model = OrderItem
@@ -56,26 +57,41 @@ a = ['celery.accumulate',
 
 def export_to_pdf(modeladmin,request,queryset):
     opts = modeladmin.model._meta
-    fields1 = [field.verbose_name for field in opts.get_fields() if not field.many_to_many and not field.one_to_many]
-    fields2 = [field for field in opts.get_fields() if not field.many_to_many and not field.one_to_many]
+    fields = [field for field in opts.get_fields() if not field.many_to_many and not field.one_to_many]
+    order_id,firstname,lastname,email,phone,address,paid = fields[0],fields[1],fields[2],fields[3],fields[4],fields[5],fields[10]
+    data = [order_id,firstname,lastname,email,phone,address,paid]
 
     data_row = []
+
     for obj in queryset:
-        for field in fields2:
+        for field in data:
             value = getattr(obj,field.name)
             if (isinstance(value,datetime)):
                 value = value.strftime('%d/%m/%y')
             data_row.append(str(value))
+    
+    data_row = [data_row[i:i + 7] for i in range(0, len(data_row), 7)]
+   
     buffer = io.BytesIO()
-    p=canvas.Canvas(buffer)
-    p.drawString(10,20,' '.join(fields1))
-    p.drawString(100,100,' '.join(data_row))
+    p=canvas.Canvas(buffer,pagesize=letter,bottomup=0)
+    textobj = p.beginText()
+    textobj.setTextOrigin(inch,inch)
+    textobj.setFont("Helvetica",11)
+
+    textobj.textLine('--------------------Order Invoices-------------------')
+    textobj.textLine('=====================================================')
+
+
+    for chunk in data_row[::-1]:
+        textobj.textLine(str(chunk))
+
+    p.drawText(textobj)
     p.showPage()
     p.save()
-
     buffer.seek(0)
+
     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
-export_to_csv.short_description = 'Export to CSV'
+export_to_pdf.short_description = 'Export to PDF'
 
 
 @admin.register(Order)
