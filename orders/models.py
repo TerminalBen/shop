@@ -26,6 +26,10 @@ class Order(models.Model):
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
 
+    def get_items(self):
+        return [item.get_order()for item in self.items.all()]
+
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,related_name='items',on_delete=models.CASCADE)
     product = models.ForeignKey(Product,related_name='order_items',on_delete=models.CASCADE)
@@ -37,3 +41,12 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+    def get_product_id(self):
+        return self.product.id
+    
+    def get_quantity(self):
+        return self.quantity
+
+    def get_order(self):
+        return self

@@ -2,16 +2,19 @@ from django.shortcuts import render
 import braintree
 from django.shortcuts import render, redirect,get_object_or_404
 from django.conf import settings
-from orders.models import Order
+from orders.models import Order, OrderItem,Product
 
 # Create your views here.
 
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
 def payment_process(request):
+
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order,id = order_id)
+    orderItems = order.get_items()
     total_cost = order.get_total_cost()
+    
     if request.method == 'POST':
         #retireve nonce
         nonce = request.POST.get('payment_method_nonce',None)
@@ -26,6 +29,12 @@ def payment_process(request):
         #response_code = result.Transaction.processor_response_code //check these debugs errors
         #response_text = result.Transaction.processor_response_text //check these debug errors
         if result.is_success:
+            #Update quantity in DB
+            
+            for item in orderItems:
+                product = get_object_or_404(Product,id=item.product_id)
+                product.set_product_stock(OrderItem.get_quantity(item))
+                
             #mark the order as paid
             order.paid = True
             #store the unique transaction id

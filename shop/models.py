@@ -41,5 +41,15 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail',args=[self.id,self.slug])
 
-#Order and Customer model Next
-#update: order as separated app 
+    def get_product_stock(self):
+        return self.stock
+
+    def get_produt_id(self):
+        return id
+
+    def set_product_stock(self,qt):
+        self.stock -= qt
+        self.save()
+
+#Customer model Next
+ 
