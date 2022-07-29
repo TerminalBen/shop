@@ -11,6 +11,9 @@ from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+
 
 class OrderItemInLine(admin.TabularInline):
     model = OrderItem
@@ -96,9 +99,15 @@ export_to_pdf.short_description = 'Export to PDF'
 
 @admin.register(Order)
 class OrderAdmin (admin.ModelAdmin):
-    list_display = ['id', 'first_name', 'last_name','email','phone', 'address','postal_code','city','paid', 'created', 'updated']
+    def order_detail(obj):
+        url = reverse('orders:admin_order_detail', args=[obj.id])
+        return mark_safe(f'<a href="{url}">View</a>')
+
+
+    list_display = ['id', 'first_name', 'last_name','email','phone', 'address','postal_code','city','paid', 'created', 'updated',order_detail]
     list_filter = ['paid','phone','first_name', 'created', 'updated']
     #list_editable = ['price', 'stock', 'available']
     inlines = [OrderItemInLine]
     actions = [export_to_csv,export_to_pdf]
+    
     
