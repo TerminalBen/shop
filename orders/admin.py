@@ -102,9 +102,15 @@ class OrderAdmin (admin.ModelAdmin):
     def order_detail(obj):
         url = reverse('orders:admin_order_detail', args=[obj.id])
         return mark_safe(f'<a href="{url}">View</a>')
+    order_detail.short_description = 'Details'
+
+    def order_pdf(obj):
+        url = reverse('orders:admin_order_pdf', args=[obj.id])
+        return mark_safe(f'<a href="{url}">PDF</a>')
+    order_pdf.short_description = 'Invoice'
 
 
-    list_display = ['id', 'first_name', 'last_name','email','phone', 'address','postal_code','city','paid', 'created', 'updated',order_detail]
+    list_display = ['id', 'first_name', 'last_name','email','phone', 'address','postal_code','city','paid', 'created', 'updated',order_detail,order_pdf]
     list_filter = ['paid','phone','first_name', 'created', 'updated']
     #list_editable = ['price', 'stock', 'available']
     inlines = [OrderItemInLine]
