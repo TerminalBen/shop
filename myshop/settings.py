@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_twilio',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
@@ -75,7 +76,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myshop.wsgi.application'
 #too lazy to config smtp now. using this to simulate mail sendings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #TODO replace this with smtp configuration
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+EMAIL_FILE_PATH = '/tmp/store-messages'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

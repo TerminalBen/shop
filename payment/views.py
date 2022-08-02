@@ -3,6 +3,7 @@ import braintree
 from django.shortcuts import render, redirect,get_object_or_404
 from django.conf import settings
 from orders.models import Order, OrderItem,Product
+from .tasks import payment_completed_admin,payment_completed_user
 
 # Create your views here.
 
@@ -40,6 +41,9 @@ def payment_process(request):
             #store the unique transaction id
             order.braintree_id = result.transaction.id
             order.save()
+            #Load assync tasks
+            payment_completed_user.delay(order.id)
+            payment_completed_admin.delay(order.id)
             return redirect('payment:done')
         else:
             print(f'result message: {result.message}')

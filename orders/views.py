@@ -4,7 +4,7 @@ from django .conf import settings
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
-from .tasks import order_created_user
+from .tasks import order_created_admin, order_created_user
 from django.urls import reverse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
@@ -26,9 +26,7 @@ def order_create(request):
             cart.clear()
             #launch asynchronous task
             order_created_user.delay(order.id)
-
-            # TODO start another asynchronout task for the shop admins
-            # TODO order_created_admins(order_id)
+            order_created_admin.delay(order.id)
             
             #set the order in the session
             request.session['order_id'] = order.id
