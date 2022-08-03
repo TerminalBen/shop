@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import braintree
+from .creds import BRAINTREE_MERCHANT_ID,BRAINTREE_PUBLIC_KEY,BRAINTREE_PRIVATE_KEY,SECRET_KEY as secret
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'b#0uvl9lir76xts@6*k1o1xqi_$c17-kx$#stfsr_^46xuuygc'
+SECRET_KEY = secret
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -132,12 +134,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 #braintree Settings
-
-BRAINTREE_MERCHANT_ID = 'km4tnv8kdrzfnkpc'
-BRAINTREE_PUBLIC_KEY = 'dws7tqqcpsdrn73q'
-BRAINTREE_PRIVATE_KEY = '21f55c20c00d70130a6bf02ae1b19ff2'
-
-
 
 BRAINTREE_CONF= braintree.Configuration(
     braintree.Environment.Sandbox,

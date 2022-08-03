@@ -3,7 +3,7 @@ import braintree
 from django.shortcuts import render, redirect,get_object_or_404
 from django.conf import settings
 from orders.models import Order, OrderItem,Product
-from .tasks import payment_completed_admin,payment_completed_user
+from .tasks import payment_completed_admin,payment_completed_user,send_sms_on_payment
 
 # Create your views here.
 
@@ -44,6 +44,8 @@ def payment_process(request):
             #Load assync tasks
             payment_completed_user.delay(order.id)
             payment_completed_admin.delay(order.id)
+            send_sms_on_payment("+238"+str(order.phone),order_id,order.first_name)
+            
             return redirect('payment:done')
         else:
             print(f'result message: {result.message}')

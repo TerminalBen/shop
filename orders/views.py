@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404
 from .models import Order
 from django.template.loader import render_to_string
+from myshop.notifications import sendSMS
 import weasyprint
 
 # Create your views here.
@@ -24,13 +25,14 @@ def order_create(request):
             for item in cart:
                 OrderItem.objects.create(order=order,product=item['product'],price=item['price'],quantity=item['quantity'])
             cart.clear()
-            #launch asynchronous task
+            #launch asynchronous tasks
             order_created_user.delay(order.id)
             order_created_admin.delay(order.id)
+            #sendSMS("+2385841700")
             
             #set the order in the session
             request.session['order_id'] = order.id
-            #redrect to payment
+            #redirect to payment
             return redirect(reverse('payment:process'))
     else:
         form=OrderCreateForm()
