@@ -14,7 +14,7 @@ A fully functional e-commerce application
    - Payment gateway with Braintree and Stripe
    - Invoice Generation
    - Email notifications on new Order/buy
-   - ```Soon``` SMS notifications on new Order/buy
+   - SMS notifications on new Order/buy
    - ```Soon``` Coupon System Management
    - ```Soon``` Real Time External DataBase Synchronization
  
@@ -23,7 +23,7 @@ A fully functional e-commerce application
    - Edit Orders
    - Address for delivery options
    - Payment with VISA or no payment method(payment on delivery)
-   - Phone and email confirmation on order/buy 
+   - SMS and email confirmation on order/buy 
    - ```Soon```Discounts with Coupons
    - ```Soon```Internacionalization and Localization
    - ```Soon```Recomendation System
