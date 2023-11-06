@@ -1,10 +1,13 @@
 import os
 from twilio.rest import Client
-from celery import task
+from celery import shared_task
 from myshop.creds import twilio_account_sid,twilio_auth_token
+    """This is not in use in the project yet. It will be its own separated app, or centralized project controller to handle all notifications
 
-@task
-def sendSMS(to):
+    """
+
+@shared_task
+def sendSMS(to:str) -> int:
     # """Sends sms using the twilio api
 
     # Args:
@@ -13,17 +16,14 @@ def sendSMS(to):
     # """
     # # Find your Account SID and Auth Token at twilio.com/console
     # # and set the environment variables. See http://twil.io/secure
+    try:
+        client = Client(twilio_account_sid, twilio_auth_token)
 
-    # # account_sid = os.environ['TWILIO_ACCOUNT_SID']
-    # # auth_token = os.environ['TWILIO_AUTH_TOKEN']
-
-    # client = Client(twilio_account_sid, twilio_auth_token)
-
-    # message = client.messages.create(
-    #         body='Order test',
-    #         from_='+19784876292',
-    #         to=to
-    #     )
-
-    # print(message.sid)
-    pass
+        message = client.messages.create(
+                body='Order test',
+                from_='+19784876292',
+                to=to
+            )
+        print(message.sid)
+    except:
+        print("error sending sms")

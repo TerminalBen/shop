@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
+    'coupons.apps.CouponsConfig',
 ]
 
 MIDDLEWARE = [
@@ -78,8 +79,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myshop.wsgi.application'
 #too lazy to config smtp now. using this to simulate mail sendings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
-EMAIL_FILE_PATH = '/tmp/store-messages'
+
+# EMAIL_FILE_PATH = '/tmp/store-messages'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'bentolima100@gmail.com'
+EMAIL_HOST_PASSWORD = 'mfeuvfdwekranibk'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' --------change this when deploying
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

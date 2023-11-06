@@ -9,6 +9,8 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/manage.py",
+            "python": "/Users/blima/source/repos/shop/.venv/Scripts/python.exe",
+            "console": "internalConsole",
             "args": [
                 "runserver",
                 "5000"

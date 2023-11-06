@@ -11,8 +11,10 @@ from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404
 from .models import Order
 from django.template.loader import render_to_string
-from myshop.notifications import sendSMS
-import weasyprint
+import os
+
+
+from weasyprint import HTML,CSS
 
 # Create your views here.
 
@@ -26,8 +28,8 @@ def order_create(request):
                 OrderItem.objects.create(order=order,product=item['product'],price=item['price'],quantity=item['quantity'])
             cart.clear()
             #launch asynchronous tasks
-            order_created_user.delay(order.id)
-            order_created_admin.delay(order.id)
+            order_created_user(order.id)
+            order_created_admin(order.id)
             #sendSMS("+2385841700")
             
             #set the order in the session
@@ -49,9 +51,8 @@ def admin_order_pdf(request,order_id):
     html = render_to_string('orders/order/pdf.html',{'order':order})
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
-    weasyprint.HTML(string=html).write_pdf(response,
-    stylesheets=[weasyprint.CSS(
-    settings.STATIC_ROOT + 'css/pdf.css')])
+    HTML(string=html).write_pdf(response,
+    stylesheets=[CSS(settings.STATIC_ROOT + 'css/pdf.css')])
     return response
 
 
