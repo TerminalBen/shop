@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 import braintree
 from .creds import BRAINTREE_MERCHANT_ID,BRAINTREE_PUBLIC_KEY,BRAINTREE_PRIVATE_KEY,SECRET_KEY as secret
-
+from .creds import HOST,HOST_PASSWORD,HOST_USER
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'myshop.wsgi.application'
 
 # EMAIL_FILE_PATH = '/tmp/store-messages'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'bentolima100@gmail.com'
-EMAIL_HOST_PASSWORD = 'mfeuvfdwekranibk'
+EMAIL_HOST = HOST
+EMAIL_HOST_USER = HOST_USER
+EMAIL_HOST_PASSWORD = HOST_PASSWORD
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
